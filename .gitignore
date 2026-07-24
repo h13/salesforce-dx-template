@@ -1,0 +1,19 @@
+# Salesforce
+.sf/
+.sfdx/
+deploy-options.json
+
+# Node
+node_modules/
+coverage/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log

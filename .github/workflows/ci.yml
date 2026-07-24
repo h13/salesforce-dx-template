@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, sandbox]
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+
+jobs:
+  check:
+    uses: h13/.github/.github/workflows/ci-node.yml@v1
+    with:
+      node-version: '24'
+
+  code-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4
+
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version: '24'
+          cache: pnpm
+
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4
+        with:
+          java-version: '>=11'
+          distribution: 'zulu'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Install Code Analyzer plugin
+        run: pnpm exec sf plugins install code-analyzer@latest
+
+      - name: Run Salesforce Code Analyzer
+        id: run-code-analyzer
+        uses: forcedotcom/run-code-analyzer@v2
+        with:
+          run-arguments: --workspace . --view detail --output-file sfca_results.html --output-file sfca_results.json
+          results-artifact-name: salesforce-code-analyzer-results
+          github-token: ${{ github.token }}
+
+      - name: Fail on Critical or High severity violations
+        if: |
+          steps.run-code-analyzer.outputs.num-sev1-violations > 0 ||
+          steps.run-code-analyzer.outputs.num-sev2-violations > 0
+        run: exit 1
+
+  validate:
+    runs-on: ubuntu-latest
+    needs: [check, code-analysis]
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4
+
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version: '24'
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Authenticate to Sandbox
+        env:
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_JWT_KEY: ${{ secrets.SF_JWT_KEY }}
+          SF_USERNAME: ${{ secrets.SF_SANDBOX_USERNAME }}
+          SF_INSTANCE_URL: ${{ secrets.SF_SANDBOX_INSTANCE_URL }}
+        run: |
+          echo "$SF_JWT_KEY" > server.key
+          pnpm exec sf org login jwt \
+            --client-id "$SF_CLIENT_ID" \
+            --jwt-key-file server.key \
+            --username "$SF_USERNAME" \
+            --instance-url "$SF_INSTANCE_URL" \
+            --alias sandbox
+          rm server.key
+
+      - name: Validate deployment (dry-run)
+        run: pnpm exec sf project deploy start --dry-run --target-org sandbox --wait 30

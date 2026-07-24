@@ -1,0 +1,4 @@
+allowBuilds:
+  '@salesforce/cli': true
+  protobufjs: true
+  yarn: true

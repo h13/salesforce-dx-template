@@ -1,0 +1,25 @@
+{
+  "name": "salesforce-metadata-template",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "pnpm run lint && pnpm run format:check",
+    "deploy:sandbox": "sf project deploy start --target-org sandbox",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "lint": "oxlint scripts/",
+    "retrieve": "bash scripts/retrieve.sh",
+    "scan": "sf code-analyzer run --workspace . --view detail",
+    "validate": "sf project deploy start --dry-run --target-org sandbox"
+  },
+  "devDependencies": {
+    "@salesforce/cli": "^2.144.6",
+    "oxfmt": "0.59.0",
+    "oxlint": "1.74.0"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.15.1+sha512.81350b07e53c9538a02f1f2303b4290fa2d7be04e56e2a970c4cc4b417dc761de196edabd49d55c7dc9580db81007c44143e4e3d7e462b3000d23c255122d065"
+}

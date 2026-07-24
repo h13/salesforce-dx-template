@@ -1,0 +1,43 @@
+name: Deploy
+
+on:
+  push:
+    branches: [sandbox, main]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'production' || 'sandbox' }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4
+
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version: '24'
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Authenticate
+        env:
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_JWT_KEY: ${{ secrets.SF_JWT_KEY }}
+          SF_USERNAME: ${{ secrets.SF_USERNAME }}
+          SF_INSTANCE_URL: ${{ secrets.SF_INSTANCE_URL }}
+        run: |
+          echo "$SF_JWT_KEY" > server.key
+          pnpm exec sf org login jwt \
+            --client-id "$SF_CLIENT_ID" \
+            --jwt-key-file server.key \
+            --username "$SF_USERNAME" \
+            --instance-url "$SF_INSTANCE_URL" \
+            --alias target-org
+          rm server.key
+
+      - name: Deploy
+        run: pnpm exec sf project deploy start --target-org target-org --wait 30

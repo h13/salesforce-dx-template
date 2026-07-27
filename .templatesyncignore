@@ -19,6 +19,9 @@
 :!package.json
 :!renovate.json
 
+# Salesforce
+:!.forceignore
+
 # Meta
 :!.templatesyncignore
 :!.gitignore

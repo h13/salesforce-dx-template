@@ -1,5 +1,2 @@
 [files]
-extend-exclude = [
-  "pnpm-lock.yaml",
-  "force-app/**",
-]
+extend-exclude = ["pnpm-lock.yaml", "force-app/**"]

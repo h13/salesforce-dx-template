@@ -9,7 +9,7 @@ This project uses two authentication methods: OAuth for local development and JW
 Each developer authenticates with their own Salesforce account:
 
 ```bash
-sf org login web --alias sandbox --instance-url https://your-sandbox.sandbox.my.salesforce.com
+pnpm exec sf org login web --alias sandbox --instance-url https://your-sandbox.sandbox.my.salesforce.com
 ```
 
 This opens a browser for OAuth login. No service account or admin credentials needed.

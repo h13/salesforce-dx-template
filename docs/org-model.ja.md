@@ -48,12 +48,12 @@
 
 ```bash
 # 開発者A（bear sandbox を使用）
-sf org login web --alias my-sandbox --instance-url https://company--bear.sandbox.my.salesforce.com
-sf project deploy start --dry-run --target-org my-sandbox
+pnpm exec sf org login web --alias my-sandbox --instance-url https://company--bear.sandbox.my.salesforce.com
+pnpm exec sf project deploy start --dry-run --target-org my-sandbox
 
 # 開発者B（dev1 sandbox を使用）
-sf org login web --alias my-sandbox --instance-url https://company--dev1.sandbox.my.salesforce.com
-sf project deploy start --dry-run --target-org my-sandbox
+pnpm exec sf org login web --alias my-sandbox --instance-url https://company--dev1.sandbox.my.salesforce.com
+pnpm exec sf project deploy start --dry-run --target-org my-sandbox
 ```
 
 CI パイプラインは**1つの共有 Sandbox**（GitHub Secrets で設定）に対して自動検証を行います。これがインテグレーション Sandbox — 本番への最後の門番です。
@@ -74,7 +74,7 @@ sandbox ──► main への PR ──► 本番に自動デプロイ
 ### ステップバイステップ
 
 1. **開発**: feature ブランチを作成。メタデータを編集するか、自分の Sandbox から GUI 変更を retrieve する。
-2. **ローカル検証**: `sf project deploy start --dry-run --target-org my-sandbox`
+2. **ローカル検証**: `pnpm exec sf project deploy start --dry-run --target-org my-sandbox`
 3. **Push と PR**: `sandbox` への PR を作成。CI がインテグレーション Sandbox に対して dry-run 検証を実行。
 4. **sandbox にマージ**: 変更がインテグレーション Sandbox に自動デプロイされる。チームが確認。
 5. **本番に昇格**: `sandbox` → `main` の PR を作成。マージで本番に自動デプロイ。
@@ -104,10 +104,10 @@ Sandbox は org 管理者によってリフレッシュや削除される場合�
 
 ```bash
 # 再認証
-sf org login web --alias my-sandbox --instance-url https://company--new-sandbox.sandbox.my.salesforce.com
+pnpm exec sf org login web --alias my-sandbox --instance-url https://company--new-sandbox.sandbox.my.salesforce.com
 
 # 現在の状態を再デプロイ
-sf project deploy start --target-org my-sandbox
+pnpm exec sf project deploy start --target-org my-sandbox
 ```
 
 リポジトリが常に正規の状態を保持します。Sandbox は一時的なもの、Git は永続的なもの。

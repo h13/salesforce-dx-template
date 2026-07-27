@@ -48,12 +48,12 @@ All developers work in the **same repository**, on feature branches. Each develo
 
 ```bash
 # Developer A (uses bear sandbox)
-sf org login web --alias my-sandbox --instance-url https://company--bear.sandbox.my.salesforce.com
-sf project deploy start --dry-run --target-org my-sandbox
+pnpm exec sf org login web --alias my-sandbox --instance-url https://company--bear.sandbox.my.salesforce.com
+pnpm exec sf project deploy start --dry-run --target-org my-sandbox
 
 # Developer B (uses dev1 sandbox)
-sf org login web --alias my-sandbox --instance-url https://company--dev1.sandbox.my.salesforce.com
-sf project deploy start --dry-run --target-org my-sandbox
+pnpm exec sf org login web --alias my-sandbox --instance-url https://company--dev1.sandbox.my.salesforce.com
+pnpm exec sf project deploy start --dry-run --target-org my-sandbox
 ```
 
 The CI pipeline deploys to **one shared Sandbox** (configured in GitHub Secrets) for automated validation. This is the integration Sandbox — the gatekeeper before Production.
@@ -74,7 +74,7 @@ sandbox ──► PR to main ──► auto-deploy to Production
 ### Step by step
 
 1. **Develop**: Create a feature branch. Edit metadata or retrieve GUI changes from your personal Sandbox.
-2. **Validate locally**: `sf project deploy start --dry-run --target-org my-sandbox`
+2. **Validate locally**: `pnpm exec sf project deploy start --dry-run --target-org my-sandbox`
 3. **Push and PR**: Open a PR to `sandbox`. CI runs dry-run validation against the integration Sandbox.
 4. **Merge to sandbox**: Changes auto-deploy to the integration Sandbox. Team verifies.
 5. **Promote to Production**: Open a PR from `sandbox` to `main`. On merge, changes auto-deploy to Production.
@@ -104,10 +104,10 @@ Sandboxes may be refreshed or deleted by org admins. This does not affect the re
 
 ```bash
 # Re-authenticate
-sf org login web --alias my-sandbox --instance-url https://company--new-sandbox.sandbox.my.salesforce.com
+pnpm exec sf org login web --alias my-sandbox --instance-url https://company--new-sandbox.sandbox.my.salesforce.com
 
 # Re-deploy current state
-sf project deploy start --target-org my-sandbox
+pnpm exec sf project deploy start --target-org my-sandbox
 ```
 
 The repository always holds the canonical state. Sandboxes are ephemeral; Git is permanent.

@@ -9,7 +9,7 @@
 各開発者が自分の Salesforce アカウントで認証:
 
 ```bash
-sf org login web --alias sandbox --instance-url https://your-sandbox.sandbox.my.salesforce.com
+pnpm exec sf org login web --alias sandbox --instance-url https://your-sandbox.sandbox.my.salesforce.com
 ```
 
 ブラウザで OAuth ログインが開きます。サービスアカウントや管理者権限は不要です。

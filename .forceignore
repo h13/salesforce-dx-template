@@ -1,0 +1,23 @@
+# .forceignore
+# Exclude metadata that should not be retrieved or deployed from this repository.
+# Uses .gitignore syntax. Applied by `sf project retrieve/deploy` commands.
+# See: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_exclude_source.htm
+
+# =============================================================================
+# Managed Packages
+# Add prefixes for installed managed packages. Their metadata is read-only and
+# should not be version-controlled or deployed from this repository.
+# =============================================================================
+
+# Example: Pardot / Account Engagement
+# **/pi__*
+
+# Example: Salesforce DevOps Center
+# **/sf_devops__*
+
+# =============================================================================
+# Org-specific noise (uncomment or add as needed)
+# =============================================================================
+
+# Installed package definitions (managed externally, not deployable)
+# **/installedPackages

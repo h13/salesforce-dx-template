@@ -1,0 +1,3 @@
+# oxfmt ignore patterns (oxfmt reads .prettierignore by default)
+# Retrieved Salesforce metadata must round-trip unchanged
+force-app/

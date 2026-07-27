@@ -32,8 +32,10 @@ Both paths converge on the same `force-app/` directory and the same CI pipeline.
 
 ### Prerequisites
 
-- [mise](https://mise.jdx.dev/) (manages Node.js and Salesforce CLI versions)
+- [mise](https://mise.jdx.dev/) (manages the Node.js version)
 - [pnpm](https://pnpm.io/)
+
+The [Salesforce CLI](https://developer.salesforce.com/tools/salesforcecli) is bundled as a devDependency — no global install needed. Run it with `pnpm exec sf ...` after `pnpm install`.
 
 ### Setup
 
@@ -46,7 +48,7 @@ pnpm install
 Authenticate to your Sandbox:
 
 ```bash
-sf org login web --alias sandbox --instance-url https://your-sandbox.sandbox.my.salesforce.com
+pnpm exec sf org login web --alias sandbox --instance-url https://your-sandbox.sandbox.my.salesforce.com
 ```
 
 ### Retrieve GUI changes
@@ -76,7 +78,7 @@ Production deploys happen only through CI/CD when changes are merged to `main`.
 | `sandbox` | Sandbox org    | Automatic on push |
 | `main`    | Production org | Automatic on push |
 
-PRs to either branch run dry-run validation (`sf project deploy start --dry-run`) in CI.
+PRs to either branch run dry-run validation (`pnpm exec sf project deploy start --dry-run`) in CI.
 
 ## Project Structure
 

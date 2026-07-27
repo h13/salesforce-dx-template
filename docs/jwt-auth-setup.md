@@ -104,7 +104,7 @@ The PR validate job runs outside environments, so Sandbox secrets are also neede
 ## 5. Test Authentication Locally
 
 ```bash
-sf org login jwt \
+pnpm exec sf org login jwt \
   --client-id YOUR_CLIENT_ID \
   --jwt-key-file server.key \
   --username admin@company.com.sandbox1 \
@@ -122,7 +122,7 @@ Successfully authorized admin@company.com.sandbox1 with org ID 00D...
 
 ```bash
 # Dry-run deploy to Sandbox
-sf project deploy start --dry-run --target-org sandbox --wait 30
+pnpm exec sf project deploy start --dry-run --target-org sandbox --wait 30
 ```
 
 ## Troubleshooting

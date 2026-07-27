@@ -32,8 +32,10 @@ AI Agent 編集 → Git に直接   → PR → CI validate → merge → deploy
 
 ### 前提条件
 
-- [mise](https://mise.jdx.dev/)（Node.js と Salesforce CLI のバージョン管理）
+- [mise](https://mise.jdx.dev/)（Node.js バージョン管理）
 - [pnpm](https://pnpm.io/)
+
+[Salesforce CLI](https://developer.salesforce.com/tools/salesforcecli) は devDependency として同梱されているため、グローバルインストールは不要。`pnpm install` 後に `pnpm exec sf ...` で実行する。
 
 ### セットアップ
 
@@ -46,7 +48,7 @@ pnpm install
 Sandbox への認証:
 
 ```bash
-sf org login web --alias sandbox --instance-url https://your-sandbox.sandbox.my.salesforce.com
+pnpm exec sf org login web --alias sandbox --instance-url https://your-sandbox.sandbox.my.salesforce.com
 ```
 
 ### GUI 変更の取り込み
@@ -76,7 +78,7 @@ pnpm run deploy:sandbox
 | `sandbox` | Sandbox org    | push 時に自動 |
 | `main`    | Production org | push 時に自動 |
 
-いずれのブランチへの PR も CI で dry-run 検証（`sf project deploy start --dry-run`）を実行。
+いずれのブランチへの PR も CI で dry-run 検証（`pnpm exec sf project deploy start --dry-run`）を実行。
 
 ## プロジェクト構成
 

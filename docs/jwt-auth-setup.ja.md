@@ -104,7 +104,7 @@ PR の validate ジョブは環境外で動くため、リポジトリレベル�
 ## 5. ローカルでの認証テスト
 
 ```bash
-sf org login jwt \
+pnpm exec sf org login jwt \
   --client-id YOUR_CLIENT_ID \
   --jwt-key-file server.key \
   --username admin@company.com.sandbox1 \
@@ -122,7 +122,7 @@ Successfully authorized admin@company.com.sandbox1 with org ID 00D...
 
 ```bash
 # Sandbox にデプロイテスト
-sf project deploy start --dry-run --target-org sandbox --wait 30
+pnpm exec sf project deploy start --dry-run --target-org sandbox --wait 30
 ```
 
 ## トラブルシューティング

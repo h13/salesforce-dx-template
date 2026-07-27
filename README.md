@@ -57,6 +57,13 @@ pnpm exec sf org login web --alias sandbox --instance-url https://your-sandbox.s
 pnpm run retrieve
 ```
 
+### Customizing retrieval scope
+
+By default, `retrieve.sh` pulls metadata based on `sfdx-project.json` package directories. If your org has many managed packages or you need full-org retrieval with `package.xml`, note:
+
+- **`.forceignore`** — Excludes managed package metadata (e.g., `**/pi__*`) from retrieve/deploy. Uncomment or add patterns for your installed packages.
+- **`package.xml`** — If you create a manifest for wildcard retrieval, ensure commonly missed types are included: `ApexTrigger`, `LightningComponentBundle`, `AuraDefinitionBundle`.
+
 ### Validate before pushing
 
 ```bash

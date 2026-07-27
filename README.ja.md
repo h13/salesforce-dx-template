@@ -57,6 +57,13 @@ pnpm exec sf org login web --alias sandbox --instance-url https://your-sandbox.s
 pnpm run retrieve
 ```
 
+### retrieve 範囲のカスタマイズ
+
+デフォルトでは `retrieve.sh` は `sfdx-project.json` のパッケージディレクトリに基づいてメタデータを取得します。管理パッケージが多い org や `package.xml` でワイルドカード取得する場合は以下に注意してください:
+
+- **`.forceignore`** — 管理パッケージのメタデータ（例: `**/pi__*`）を retrieve/deploy 対象外にします。インストール済みパッケージに合わせてコメントを外すかパターンを追加してください。
+- **`package.xml`** — ワイルドカード取得用のマニフェストを作成する場合、漏れやすいタイプ（`ApexTrigger`、`LightningComponentBundle`、`AuraDefinitionBundle`）を含めてください。
+
 ### デプロイ前の検証
 
 ```bash

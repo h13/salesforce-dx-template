@@ -19,7 +19,12 @@
 :!renovate.json
 
 # Salesforce
-:!.forceignore
+#
+# .forceignore is deliberately NOT synced. Which managed packages an org has
+# installed differs per org, so the list of excluded prefixes is repository
+# specific. Syncing it would replace a downstream repository's real exclusions
+# with the commented-out skeleton in this template, and the next retrieve would
+# pull every managed package's metadata back into the repository.
 
 # Meta
 :!.templatesyncignore

@@ -13,7 +13,6 @@
 # Build & tooling
 :!.oxlintrc.json
 :!.oxfmtrc.json
-:!.prettierignore
 :!.editorconfig
 :!.mise.toml
 :!package.json

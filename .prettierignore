@@ -1,3 +1,24 @@
-# oxfmt ignore patterns (oxfmt reads .prettierignore by default)
-# Retrieved Salesforce metadata must round-trip unchanged
-force-app/
+# oxfmt ignore patterns (oxfmt reads .prettierignore by default; prettier itself
+# is not used here).
+#
+# Everything in this repository is formatted, including metadata retrieved from
+# the org. The repository is the source of truth for its org — we deploy from
+# force-app — so our formatting standard applies to what it contains.
+#
+# The exception is build output. Minified files are not source: formatting one
+# produces a meaningless diff, destroys the identity of the distributed
+# artifact, and turns every dependency upgrade into a huge unreviewable change.
+# This is the same reason every JavaScript project keeps dist/ and node_modules/
+# out of its formatter.
+#
+# In a Salesforce repository these arrive as static resources — a vendored
+# jquery.min.js and the like.
+**/*.min.js
+**/*.min.css
+
+# Vendored assets that are not minified belong here too. Nothing in the metadata
+# marks a static resource as third-party, so it has to be declared by whoever
+# adds it. This file is deliberately NOT in .templatesyncignore, so entries you
+# add here survive template sync.
+#   Directory-type resource: force-app/main/default/staticresources/<name>/**
+#   Single-file resource:    force-app/main/default/staticresources/<name>.js

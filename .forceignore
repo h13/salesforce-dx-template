@@ -15,6 +15,16 @@
 # Example: Salesforce DevOps Center
 # **/sf_devops__*
 
+# IMPORTANT: `**/<prefix>__*` only matches paths whose basename STARTS with the
+# prefix, so it misses object translations. Those are named
+# "<StandardObject>-<prefix>__<locale>" (e.g. Account-pi__en_US), which puts the
+# prefix in the middle. Without the pattern below, `sf project retrieve start`
+# writes them into a stray nested force-app/main/default/main/default/
+# directory — thousands of files that are not yours to version. Add one line per
+# managed package prefix you exclude above:
+# **/objectTranslations/*-pi__*
+# **/objectTranslations/*-sf_devops__*
+
 # =============================================================================
 # Org-specific noise (uncomment or add as needed)
 # =============================================================================

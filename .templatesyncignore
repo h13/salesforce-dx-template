@@ -13,7 +13,6 @@
 # Build & tooling
 :!.oxlintrc.json
 :!.oxfmtrc.json
-:!.prettierignore
 :!.editorconfig
 :!.mise.toml
 :!package.json
@@ -26,7 +25,10 @@
 :!.templatesyncignore
 :!.gitignore
 :!.gitleaks.toml
-:!_typos.toml
+# Long form is required here: in the `:!` short form git keeps reading magic
+# signature characters after the `!`, and `_` is not one, so `:!_typos.toml`
+# dies with "Unimplemented pathspec magic '_'".
+:(exclude)_typos.toml
 :!.markdownlint-cli2.yaml
 :!LICENSE
 
